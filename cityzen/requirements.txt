@@ -1,0 +1,8 @@
+Django==1.4.2
+PIL==1.1.7
+South==0.7.5
+distribute==0.6.24
+psycopg2==2.4.5
+virtualenv==1.6.4
+virtualenvwrapper==2.10.1
+wsgiref==0.1.2
