@@ -53,4 +53,7 @@ def update_status(request):
     ticket = get_object_or_404(Ticket, pk=int(request.POST['pk']))
     ticket.status = int(request.POST['status']) + 1
     ticket.save()
+
+    send_push_notification(ticket, "delete")
+
     return HttpResponse(status=200)

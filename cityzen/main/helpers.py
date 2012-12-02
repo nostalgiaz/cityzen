@@ -8,6 +8,6 @@ pusher.secret = settings.pusher_secret
 
 p = pusher.Pusher()
 
-def send_push_notification(data):
-    p['cityzen'].trigger('message', json.dumps(data.to_dict()))
+def send_push_notification(data, channel="message"):
+    p['cityzen'].trigger(channel, json.dumps(data.to_dict()))
 
