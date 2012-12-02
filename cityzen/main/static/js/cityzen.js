@@ -36,6 +36,11 @@ $(function () {
 
       window.tickets = this.ticket;
 
+      this.ticket.bind('remove', function () {
+        self.ticket.fetch({success: function () {
+          self.render();
+        }});
+      });
       this.ticket.bind('add', function () {
         self.render();
       });
