@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import base64
 import hashlib
 from django.core.files.base import ContentFile
-
+from main.helpers import send_push_notification
 
 @csrf_exempt
 @ajax(require_POST=True)
@@ -23,8 +23,10 @@ def get_data(request):
     ticket.address = address
     ticket.description = description
     ticket.save()
+#    import pdb;pdb.set_trace()
     if image:
         save_image(ticket, image)
+    send_push_notification(ticket)
     return HttpResponse(status=200)
 
 
@@ -34,3 +36,8 @@ def save_image(ticket, img):
     image = base64.decodestring(img)
     sha1 = hashlib.sha1(image).hexdigest()
     ticket.photo.save(sha1 + ".jpg", ContentFile(image))
+
+@ajax(require_GET=True)
+def tickets(request):
+    tickets = Ticket.objects.values()
+    return {'object':tickets}
