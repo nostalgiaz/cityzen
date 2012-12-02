@@ -2,10 +2,10 @@ from main.models import Ticket
 from ajaxutils.decorators import ajax
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-import base64
-import hashlib
-from django.core.files.base import ContentFile
 from main.helpers import send_push_notification
+from .helpers import save_image
+import json
+
 
 @csrf_exempt
 @ajax(require_POST=True)
@@ -13,31 +13,30 @@ def get_data(request):
     """ Extract data from POST and save into a Ticket
         instance. If exist, save the image
     """
-    address = request.POST['address']
-    city = request.POST['city']
-    state = request.POST['state']
-    description = request.POST['description']
-    image = request.POST.get('image')
+ #   import pdb;pdb.set_trace()
+
+    data = json.loads(request.POST['data'])
+    print data
+    address = data['address']
+    city = data['city']
+    country = data['country']
+    description = data['description']
+    image = data.get('image')
     ticket = Ticket()
     ticket.city = city
     ticket.address = address
+    ticket.country = country
     ticket.description = description
     ticket.save()
-#    import pdb;pdb.set_trace()
     if image:
         save_image(ticket, image)
-    send_push_notification(ticket)
+
+
+#    send_push_notification(ticket)
     return HttpResponse(status=200)
 
 
-def save_image(ticket, img):
-    """ Save image in ticket's photo field
-    """
-    image = base64.decodestring(img)
-    sha1 = hashlib.sha1(image).hexdigest()
-    ticket.photo.save(sha1 + ".jpg", ContentFile(image))
-
 @ajax(require_GET=True)
 def tickets(request):
-    tickets = Ticket.objects.values()
-    return {'object': list(tickets)}
+    tickets = Ticket.objects.all()
+    return [ticket.to_dict() for ticket in tickets]
