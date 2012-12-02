@@ -1,6 +1,6 @@
 $(function () {
   addPointToMap = function (address) {
-    window.geocoder.geocode(
+    geocoder.geocode(
       {
         'address': address
       },
@@ -79,6 +79,8 @@ $(function () {
       render: function () {
         var $el = $(this.el)
           , tickets = this.ticket.models;
+
+        $el.empty();
 
         _.each(tickets, function (ticket, i) {
           var $element = new TicketView({model: ticket}).render().el;
