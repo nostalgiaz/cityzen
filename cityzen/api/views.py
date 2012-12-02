@@ -38,7 +38,7 @@ def get_data(request):
 
 @ajax(require_GET=True)
 def tickets(request):
-    tickets = Ticket.objects.filter(status__in=[0,1])
+    tickets = Ticket.objects.filter(status__in=[0, 1])
     return {'object': [ticket.to_dict() for ticket in tickets]}
 
 
