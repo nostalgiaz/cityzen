@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from main.helpers import send_push_notification
 from .helpers import save_image
 import json
-
+from django.shortcuts get_object_or_404
 
 @csrf_exempt
 @ajax(require_POST=True)
@@ -45,3 +45,11 @@ def tickets(request):
 @ajax(require_GET=True)
 def get_categories(request):
     return dict(TicketCategories)
+
+@ajax(require_POST=True)
+def update_status(request):
+    ticket = get_object_or_404(pk=int(request.POST['pk']))
+    state = int(request.POST['state'])
+    ticket.state = state
+    ticket.save()
+    return HttpResponse(status=200)
