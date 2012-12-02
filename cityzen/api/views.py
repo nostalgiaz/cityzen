@@ -13,7 +13,7 @@ def get_data(request):
     """ Extract data from POST and save into a Ticket
         instance. If exist, save the image
     """
- #   import pdb;pdb.set_trace()
+    #   import pdb;pdb.set_trace()
 
     data = json.loads(request.POST['data'])
     print data
@@ -31,10 +31,8 @@ def get_data(request):
     if image:
         save_image(ticket, image)
 
-
-#    send_push_notification(ticket)
+    send_push_notification(ticket)
     return HttpResponse(status=200)
-
 
 
 @ajax(require_GET=True)
