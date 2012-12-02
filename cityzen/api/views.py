@@ -1,4 +1,4 @@
-from main.models import Ticket
+from main.models import Ticket, TicketCategories
 from ajaxutils.decorators import ajax
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -13,20 +13,20 @@ def get_data(request):
     """ Extract data from POST and save into a Ticket
         instance. If exist, save the image
     """
-    #   import pdb;pdb.set_trace()
 
     data = json.loads(request.POST['data'])
-#    print data
     address = data['address']
     city = data['city']
     country = data['country']
     description = data['description']
+    category = int(data['category'])
     image = data.get('image')
     ticket = Ticket()
     ticket.city = city
     ticket.address = address
     ticket.country = country
     ticket.description = description
+    ticket.category = category
     ticket.save()
 
     if image:
@@ -40,3 +40,8 @@ def get_data(request):
 def tickets(request):
     tickets = Ticket.objects.all()
     return {'object': [ticket.to_dict() for ticket in tickets]}
+
+
+@ajax(require_GET=True)
+def get_categories(request):
+    pass
