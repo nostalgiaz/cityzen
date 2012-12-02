@@ -100,6 +100,7 @@
     var channel = pusher.subscribe('cityzen');
 
     channel.bind('message', function (data) {
+        var data = JSON.parse(data);
         window.tickets.add(
                 new window.Ticket({'description': data.description, 'address': data.address})
         );

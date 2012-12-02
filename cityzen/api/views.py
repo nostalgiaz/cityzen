@@ -16,7 +16,7 @@ def get_data(request):
     #   import pdb;pdb.set_trace()
 
     data = json.loads(request.POST['data'])
-    print data
+#    print data
     address = data['address']
     city = data['city']
     country = data['country']
@@ -28,6 +28,7 @@ def get_data(request):
     ticket.country = country
     ticket.description = description
     ticket.save()
+
     if image:
         save_image(ticket, image)
 

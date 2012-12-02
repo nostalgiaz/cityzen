@@ -11,5 +11,6 @@ p = pusher.Pusher()
 def send_push_notification(data):
 
 #    import pdb;pdb.set_trace()
-    p['cityzen'].trigger('message', json.dumps(data))
+    print data
+    p['cityzen'].trigger('message', json.dumps(data.to_dict()))
 
