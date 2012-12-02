@@ -165,6 +165,9 @@ LOGGING = {
     }
 }
 
+LOGIN_URL = "login/"
+LOGOUT_URL = "logout/"
+
 pusher_app_id = '123123123'
 pusher_key = '123123123'
 pusher_secret = '123123123'
