@@ -44,4 +44,4 @@ def tickets(request):
 
 @ajax(require_GET=True)
 def get_categories(request):
-    pass
+    return dict(TicketCategories)
