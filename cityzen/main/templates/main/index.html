@@ -102,16 +102,23 @@
     channel.bind('message', function (data) {
         var data = JSON.parse(data);
         window.tickets.add(
-                new window.Ticket({'description': data.description, 'address': data.address})
+            new window.Ticket({
+                'description': data.description,
+                'address': data.address,
+                'category': data.category,
+                'status': data.status,
+                'photo': data.photo
+            })
         );
     });
 
-    window.test_data = function (location) {
-        var obj = {description: "descrizione",
+    window.test_data = function (location, category) {
+        var obj = {
+            description: "descrizione",
         country: "italy",
         address: location,
         city: location,
-        category: "1",
+        category: category,
         image: ""
         };
         $.post("/api/", {"data":JSON.stringify(obj)})
