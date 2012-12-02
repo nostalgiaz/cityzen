@@ -40,4 +40,4 @@ def save_image(ticket, img):
 @ajax(require_GET=True)
 def tickets(request):
     tickets = Ticket.objects.values()
-    return {'object':tickets}
+    return {'object': list(tickets)}
