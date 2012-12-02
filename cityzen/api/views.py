@@ -37,6 +37,7 @@ def save_image(ticket, img):
     sha1 = hashlib.sha1(image).hexdigest()
     ticket.photo.save(sha1 + ".jpg", ContentFile(image))
 
+
 @ajax(require_GET=True)
 def tickets(request):
     tickets = Ticket.objects.values()
