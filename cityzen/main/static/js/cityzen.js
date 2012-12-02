@@ -7,7 +7,7 @@ $(function () {
       function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var image;
-          console.log(category, myStatus)
+
           if (category === 0) // barriere
             if (myStatus === 0)
               image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/blue_pin_32.png';
@@ -51,6 +51,7 @@ $(function () {
 
   window.Ticket = Backbone.Model.extend({
     defaults: {
+      pk: 0,
       description: '',
       category: 0,
       status: 0,
@@ -94,6 +95,11 @@ $(function () {
       this.ticket.fetch({success: function () {
         self.render();
       }});
+      this.ticket.bind('update-status', function(data) {
+        $.post('/api/tickets/status/update/', data, function (response) {
+          console.log(response);
+        })
+      });
     },
     render: function () {
       var $el = $(this.el)
@@ -105,6 +111,12 @@ $(function () {
         var $element = new TicketView({model: ticket}).render().el;
         $el.prepend($element);
       }, this);
+
+      $('.btn').on('click', function () {
+        var $wrapper = $(this).closest('div.row-fluid');
+          window.tickets.trigger('update-status', {'pk': $wrapper.data('pk'), 'status': $wrapper.data('status')});
+      });
+
       return this;
     }
   });

@@ -34,6 +34,7 @@ class Ticket(models.Model):
 
     def to_dict(self):
         return {
+            'pk': self.pk,
             'address': self.address +", " + self.city + ", "+ self.country,
             'photo': self.get_absolute_image_url(),
             'description': self.description,
