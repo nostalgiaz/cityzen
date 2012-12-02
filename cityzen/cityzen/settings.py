@@ -175,6 +175,7 @@ LOGGING = {
 }
 
 LOGIN_URL = "login/"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_URL = "logout/"
 
 pusher_app_id = '123123123'
