@@ -40,4 +40,4 @@ def get_data(request):
 @ajax(require_GET=True)
 def tickets(request):
     tickets = Ticket.objects.all()
-    return [ticket.to_dict() for ticket in tickets]
+    return {'object': [ticket.to_dict() for ticket in tickets]}
