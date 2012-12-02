@@ -1,14 +1,31 @@
 $(function () {
-  addPointToMap = function (address) {
+  addPointToMap = function (address, category, myStatus) {
     geocoder.geocode(
       {
         'address': address
       },
       function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
+          var image;
+          console.log(category, myStatus)
+          if (category === 0) // barriere
+            if (myStatus === 0)
+              image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/blue_pin_32.png';
+            else image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/green_pin_32.png'
+          else if (category === 1)
+            if (myStatus === 0)
+              image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/red_pin_32.png';
+            else image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/black_pin_32.png'
+
           new google.maps.Marker({
             position: results[0].geometry.location,
-            map: map
+            map: map,
+            icon: new google.maps.MarkerImage(
+              image,
+              new google.maps.Size(32, 32),
+              new google.maps.Point(0, 0),
+              new google.maps.Point(0, 32)
+            )
           });
           map.setCenter(results[0].geometry.location);
         }
@@ -36,10 +53,12 @@ $(function () {
     defaults: {
       description: '',
       category: 0,
+      status: 0,
       address: ''
     },
     initialize: function () {
-      addPointToMap(this.attributes.address);
+      var attr = this.attributes;
+      addPointToMap(attr.address, attr.category, attr.status);
     }
   });
 
@@ -62,33 +81,33 @@ $(function () {
   });
 
   var CurrentStoryListView = Backbone.View.extend({
-      el: $('#tickets'),
-      initialize: function () {
-        var self = this;
-        this.ticket = new Tickets();
+    el: $('#tickets'),
+    initialize: function () {
+      var self = this;
+      this.ticket = new Tickets();
 
-        window.tickets = this.ticket;
+      window.tickets = this.ticket;
 
-        this.ticket.bind('add', function() {
-          self.render();
-        });
-        this.ticket.fetch({success: function () {
-          self.render();
-        }});
-      },
-      render: function () {
-        var $el = $(this.el)
-          , tickets = this.ticket.models;
+      this.ticket.bind('add', function () {
+        self.render();
+      });
+      this.ticket.fetch({success: function () {
+        self.render();
+      }});
+    },
+    render: function () {
+      var $el = $(this.el)
+        , tickets = this.ticket.models;
 
-        $el.empty();
+      $el.empty();
 
-        _.each(tickets, function (ticket, i) {
-          var $element = new TicketView({model: ticket}).render().el;
-          $el.prepend($element);
-        }, this);
-        return this;
-      }
-    });
+      _.each(tickets, function (ticket, i) {
+        var $element = new TicketView({model: ticket}).render().el;
+        $el.prepend($element);
+      }, this);
+      return this;
+    }
+  });
 
   new CurrentStoryListView();
 });
