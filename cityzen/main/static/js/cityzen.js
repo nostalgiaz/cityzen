@@ -1,5 +1,6 @@
 $(function () {
   window.marker = [];
+
   addPointToMap = function (address, category, myStatus) {
     geocoder.geocode(
       {
@@ -13,10 +14,10 @@ $(function () {
             if (myStatus === 0)
               image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/blue_pin_32.png';
             else image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/green_pin_32.png'
-            else if (category === 1)
-              if (myStatus === 0)
-                image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/red_pin_32.png';
-              else image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/black_pin_32.png'
+          else if (category === 1)
+            if (myStatus === 0)
+              image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/red_pin_32.png';
+            else image = 'http://www.gettyicons.com/free-icons/218/mixed/png/32/black_pin_32.png'
 
           window.marker.push(new google.maps.Marker({
             position: results[0].geometry.location,
@@ -57,9 +58,6 @@ $(function () {
       category: 0,
       status: 0,
       address: ''
-    },
-    initialize: function () {
-
     }
   });
 
@@ -74,7 +72,7 @@ $(function () {
   var TicketView = Backbone.View.extend({
     template: _.template($('#ticket-item').html()),
     tagName: 'article',
-    className: 'row-fluid',
+    className: 'row-fluid ticket-element',
     render: function () {
       $(this.el).html(this.template(this.model.toJSON()));
       return this;
@@ -132,5 +130,8 @@ $(function () {
     }
   });
 
-  new CurrentStoryListView();
+  $.get('/api/categories', function (data) {
+    window.category = data;
+    new CurrentStoryListView();
+  });
 });
