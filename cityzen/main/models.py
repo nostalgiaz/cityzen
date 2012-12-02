@@ -4,8 +4,8 @@ from cityzen.settings import MEDIA_PREFIX
 
 
 TicketCategories = (
-    (0, "Barriere Architettoniche"),
-    (1, "Incivilta'"),
+    (0, "Architectural barriers"),
+    (1, "Vandalism & Incivilities"),
     )
 
 TicketStatus = (

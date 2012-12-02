@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Sign in ? Twitter Bootstrap</title>
+    <title>CityZen - Sign in</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -68,8 +68,8 @@
         <form id="login" class="form-signin span4" method="post" action="
                 {% url 'login' %}{% if next %}?next={{ next }}{% endif %}">
             {% csrf_token %}
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <input type="text" id="username" name="username" class="input-block-level" placeholder="Email address">
+            <h2 class="form-signin-heading">CityZen</h2>
+            <input type="text" id="username" name="username" class="input-block-level" placeholder="Username">
             <input type="password" id="password" name="password" class="input-block-level" placeholder="Password">
             <button class="btn btn-large btn-primary" id="submit" type="submit">
                 Sign in
