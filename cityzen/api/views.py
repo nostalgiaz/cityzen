@@ -36,6 +36,7 @@ def get_data(request):
     return HttpResponse(status=200)
 
 
+
 @ajax(require_GET=True)
 def tickets(request):
     tickets = Ticket.objects.all()
